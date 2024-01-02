@@ -1,24 +1,26 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState } from 'react';
 import './App.css';
 
 function App() {
+  let [players, setPlayers] = useState([])
+  function handleSubmit(e:any) {
+    console.log(e)
+    // let upDatePlayers = players.push(e.name)
+    // setPlayers(upDatePlayers)
+  }
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Yatzy Redemption</h1>
+      <form onSubmit={() => {handleSubmit}}>
+        <label>Player Name:
+          <input type='text' name='name'/>
+        </label>
+        <input type="submit" value="Add Player" />
+      </form>
+      
+      {players.map(player => {
+        return <><h6>{player}</h6></>
+      })}
     </div>
   );
 }
