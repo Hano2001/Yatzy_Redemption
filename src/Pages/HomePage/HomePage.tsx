@@ -1,10 +1,12 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import Iplayers from '../../Components/Types';
+import { Link } from 'react-router-dom';
+import { ContextInfo } from '../../Contexts/ContextInfo';
 
 interface Props {}
 
 const HomePage = (props: Props) => {
-    let [players, setPlayers] = useState<Array<Iplayers>>([]);
+   const {players, setPlayers} = useContext(ContextInfo)
     function handleSubmit(e: any) {
       e.preventDefault();
   
@@ -22,7 +24,7 @@ const HomePage = (props: Props) => {
           <input type="submit" value="Add Player"/>
         </form>
   
-        {players.map((player) => {
+        {players.map((player:any) => {
           return (
             <>
               <h6>{player.name}</h6>
@@ -30,7 +32,8 @@ const HomePage = (props: Props) => {
             </>
           );
         })}
-
+        <button onClick={() => console.log(ContextInfo)}>TEST</button>
+        <Link to="/gamepage">Game</Link>
       </div>
     );
 }
