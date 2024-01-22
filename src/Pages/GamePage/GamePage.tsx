@@ -4,6 +4,7 @@ import { ContextInfo } from "../../Contexts/ContextInfo";
 import { numbers } from "../../Data/GameBoard";
 
 interface IboardItem {
+  playerId: Number;
   tableCord: string;
   value: Number;
 }
@@ -13,7 +14,11 @@ const GamePage = () => {
     players.map((player: Iplayers) => {
       for (let i = 1; i <= 6; i++) {
         let tableCord = `${player.id}:${i}`;
-        let newBoardItem = { tableCord: tableCord, value: 0 };
+        let newBoardItem = {
+          playerId: player.id,
+          tableCord: tableCord,
+          value: 0,
+        };
         setBoardItems((prevBoard) => [...prevBoard, newBoardItem]);
       }
     });
@@ -34,6 +39,22 @@ const GamePage = () => {
     );
   }
   function ResultRow(props: { name: string }) {
+    return (
+      <>
+        <tr>
+          <th>{props.name}</th>
+
+          {players.map((player: Iplayers) => {
+            let playerScore = boardItems
+              .filter((x) => (x.playerId === player.id))
+              .reduce((acc, curr) => acc + Number(curr.value), 0);
+            return <td key={player.id}>{playerScore}</td>;
+          })}
+        </tr>
+      </>
+    );
+  }
+  function BonusRow(props: { name: string }) {
     return (
       <>
         <tr>
@@ -74,7 +95,7 @@ const GamePage = () => {
             return <TableRow name={number.name} num={number.number} />;
           })}
           <ResultRow name="Score" />
-          <ResultRow name="Bonus" />
+          <BonusRow name="Bonus" />
         </tbody>
       </table>
       <form onSubmit={TestUpdateValue}>
