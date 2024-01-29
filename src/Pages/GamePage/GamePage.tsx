@@ -10,9 +10,10 @@ interface IboardItem {
 }
 const GamePage = () => {
   const [boardItems, setBoardItems] = useState<IboardItem[]>([]);
+  const [turnCount, setTurnCount] = useState(0);
   useEffect(() => {
-    players.map((player: Iplayers) => {
-      for (let i = 1; i <= 6; i++) {
+    for (let i = 1; i <= 6; i++) {
+      players.map((player: Iplayers) => {
         let tableCord = `${player.id}:${i}`;
         let newBoardItem = {
           playerId: player.id,
@@ -20,8 +21,8 @@ const GamePage = () => {
           value: 0,
         };
         setBoardItems((prevBoard) => [...prevBoard, newBoardItem]);
-      }
-    });
+      });
+    }
   }, []);
 
   function TableRow(props: { name: string; num: number }) {
@@ -46,7 +47,7 @@ const GamePage = () => {
 
           {players.map((player: Iplayers) => {
             let playerScore = boardItems
-              .filter((x) => (x.playerId === player.id))
+              .filter((x) => x.playerId === player.id)
               .reduce((acc, curr) => acc + Number(curr.value), 0);
             return <td key={player.id}>{playerScore}</td>;
           })}
@@ -67,16 +68,30 @@ const GamePage = () => {
       </>
     );
   }
-  function TestUpdateValue(e: any) {
-    e.preventDefault();
-    let cord = e.target.cord.value;
-    let amount = Number(e.target.amount.value);
-    let newArr = [...boardItems].map((item) => {
-      if (item.tableCord === cord) {
-        return { ...item, value: amount };
-      } else return item;
-    });
-    setBoardItems(newArr);
+  function TestUpdateValue() {
+    let roundCord = boardItems[turnCount];
+
+    function ValueUpdate(roundCord: any) {
+      let newArr = [...boardItems].map((item) => {
+        if (item.tableCord === roundCord) {
+          return { ...item, value: 5 };
+        } else return item;
+      });
+
+      return (
+        <>
+          <button onClick={() => console.log(newArr)}>Set Score</button>
+        </>
+      );
+    }
+
+    return (
+      <div>
+        <button onClick={() => setTurnCount(turnCount + 1)}>NEXT</button>
+        <button onClick={() => console.log(roundCord)}>ROUNDCORD</button>
+        <ValueUpdate/>
+      </div>
+    );
   }
   const { players } = useContext(ContextInfo);
   return (
@@ -98,7 +113,7 @@ const GamePage = () => {
           <BonusRow name="Bonus" />
         </tbody>
       </table>
-      <form onSubmit={TestUpdateValue}>
+      {/* <form onSubmit={TestUpdateValue}>
         <label>
           Cord:
           <input type="text" name="cord" />
@@ -108,7 +123,9 @@ const GamePage = () => {
           <input type="number" name="amount" />
         </label>
         <input type="submit" value="Update" />
-      </form>
+      </form> */}
+      <TestUpdateValue />
+      <button onClick={() => console.log(boardItems)}>TEST</button>
     </div>
   );
 };
