@@ -70,17 +70,16 @@ const GamePage = () => {
   }
   function TestUpdateValue() {
     let roundCord = boardItems[turnCount];
-
-    function ValueUpdate(roundCord: any) {
+    function ValueUpdate(props:{roundVal:any}) {
       let newArr = [...boardItems].map((item) => {
-        if (item.tableCord === roundCord) {
+        if (item.tableCord === props.roundVal.tableCord) {
           return { ...item, value: 5 };
         } else return item;
       });
 
       return (
         <>
-          <button onClick={() => console.log(newArr)}>Set Score</button>
+          <button onClick={() => setBoardItems(newArr)}>Set Score</button>
         </>
       );
     }
@@ -89,7 +88,7 @@ const GamePage = () => {
       <div>
         <button onClick={() => setTurnCount(turnCount + 1)}>NEXT</button>
         <button onClick={() => console.log(roundCord)}>ROUNDCORD</button>
-        <ValueUpdate/>
+        <ValueUpdate roundVal={roundCord} />
       </div>
     );
   }
