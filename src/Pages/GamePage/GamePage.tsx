@@ -4,9 +4,9 @@ import { ContextInfo } from "../../Contexts/ContextInfo";
 import { numbers } from "../../Data/GameBoard";
 
 interface IboardItem {
-  playerId: Number;
+  playerId: number;
   tableCord: string;
-  value: Number;
+  value: number;
 }
 const GamePage = () => {
   const [boardItems, setBoardItems] = useState<IboardItem[]>([]);
@@ -46,10 +46,7 @@ const GamePage = () => {
           <th>{props.name}</th>
 
           {players.map((player: Iplayers) => {
-            let playerScore = boardItems
-              .filter((x) => x.playerId === player.id)
-              .reduce((acc, curr) => acc + Number(curr.value), 0);
-            return <td key={player.id}>{playerScore}</td>;
+            return <td key={player.id}>{player.score}</td>;
           })}
         </tr>
       </>
@@ -62,7 +59,8 @@ const GamePage = () => {
           <th>{props.name}</th>
 
           {players.map((player: Iplayers) => {
-            return <td key={player.id}>0</td>;
+            let score = player.score >= 63 ? 50 : 0
+            return <td key={player.id}>{score}</td>;
           })}
         </tr>
       </>
@@ -70,16 +68,27 @@ const GamePage = () => {
   }
   function TestUpdateValue() {
     let roundCord = boardItems[turnCount];
-    function ValueUpdate(props:{roundVal:any}) {
-      let newArr = [...boardItems].map((item) => {
-        if (item.tableCord === props.roundVal.tableCord) {
-          return { ...item, value: 5 };
-        } else return item;
-      });
+    function ValueUpdate(props: { roundVal: IboardItem }) {
+      function test() {
+        let newArr = [...boardItems];
+        let itemIndex = boardItems.findIndex(
+          (obj) => obj.tableCord === props.roundVal.tableCord
+        );
+        newArr[itemIndex].value = 15;
+        console.log(newArr);
+        setBoardItems(newArr);
+        let playerIndex = players.findIndex(
+          (obj: Iplayers) => obj.id == props.roundVal.playerId
+        );
+        players[playerIndex].score += 15;
+      }
 
       return (
         <>
-          <button onClick={() => setBoardItems(newArr)}>Set Score</button>
+          <button onClick={test}>Set Score</button>
+          <button onClick={() => console.log(props.roundVal.playerId)}>
+            See PlayerId
+          </button>
         </>
       );
     }
@@ -112,19 +121,10 @@ const GamePage = () => {
           <BonusRow name="Bonus" />
         </tbody>
       </table>
-      {/* <form onSubmit={TestUpdateValue}>
-        <label>
-          Cord:
-          <input type="text" name="cord" />
-        </label>
-        <label>
-          Amount:
-          <input type="number" name="amount" />
-        </label>
-        <input type="submit" value="Update" />
-      </form> */}
+
       <TestUpdateValue />
       <button onClick={() => console.log(boardItems)}>TEST</button>
+      <button onClick={() => console.log(players)}>See Players</button>
     </div>
   );
 };

@@ -14,6 +14,7 @@ const HomePage = (props: Props) => {
     const newPlayer: Iplayers = {
       id: players.length,
       name: e.target.name.value,
+      score:0
     };
     setPlayers([...players, newPlayer]);
     e.target.name.value = "";
