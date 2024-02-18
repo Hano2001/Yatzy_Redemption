@@ -1,6 +1,6 @@
 import React from 'react'
 
 export default function Dice(dieSide: number) {
-    let score = 15;
+    let score = dieSide;
   return score
 }
