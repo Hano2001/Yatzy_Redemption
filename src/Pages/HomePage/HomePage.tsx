@@ -1,23 +1,25 @@
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import Iplayers from "../../Components/Types";
 import { Link } from "react-router-dom";
 import { ContextInfo } from "../../Contexts/ContextInfo";
 
-interface Props {}
 
-const HomePage = (props: Props) => {
+
+const HomePage = () => {
   const [inputvalue, setInputValue] = useState(true);
   const { players, setPlayers } = useContext(ContextInfo);
+  const [playerCounter, setPlayerCounter] = useState(0)
 
   function HandleSubmit(e: any) {
     e.preventDefault();
-    const newPlayer: Iplayers = {
-      id: players.length,
+    const newPlayer = {
+      id: playerCounter,
       name: e.target.name.value,
       score:0
     };
     setPlayers([...players, newPlayer]);
     e.target.name.value = "";
+    setPlayerCounter(playerCounter+1)
     setInputValue(true);
   }
   function HandleOnChange(e: any) {

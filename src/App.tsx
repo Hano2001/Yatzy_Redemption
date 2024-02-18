@@ -1,19 +1,30 @@
 import React, { useState } from "react";
 import "./App.css";
-import Iplayers from "./Components/Types"
+import Iplayers from "./Components/Types";
+import IboardItem from "./Components/Types";
 import Board from "./Components/Board";
 import { Outlet } from "react-router";
 import { ContextInfo } from "./Contexts/ContextInfo";
 
-
 function App() {
   const [players, setPlayers] = useState<Array<Iplayers>>([]);
- const contextValues = {
-  players, setPlayers
- }
+  const [boardItems, setBoardItems] = useState<Array<IboardItem>>([]);
+  const [turnCount, setTurnCount] = useState(0);
+  const contextValues = {
+    players,
+    setPlayers,
+    boardItems,
+    setBoardItems,
+    turnCount,
+    setTurnCount
+  };
   return (
     <ContextInfo.Provider value={contextValues}>
-    <><Outlet/></></ContextInfo.Provider>)
+      <>
+        <Outlet />
+      </>
+    </ContextInfo.Provider>
+  );
 }
 
 export default App;
