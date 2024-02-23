@@ -74,7 +74,7 @@ const GamePage = () => {
           <tr>
             <th>Round</th>
             {players.map((player: Iplayers) => {
-              return <th>{player.name}</th>;
+              return <th key={player.id}>{player.name}</th>;
             })}
           </tr>
 

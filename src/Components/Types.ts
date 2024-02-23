@@ -10,3 +10,9 @@ export default interface IboardItem {
   value: number;
   dieSide: number;
 }
+
+export default interface IDice {
+  dieId: number;
+  value: number;
+  locked: boolean;
+}
