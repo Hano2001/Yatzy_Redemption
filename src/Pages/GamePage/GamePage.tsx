@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import Iplayers from "../../Components/Types";
+import Iplayers from "../../Components/Interfaces/players";
 import { ContextInfo } from "../../Contexts/ContextInfo";
 import { numbers } from "../../Data/GameBoard";
 import Round from "../../Components/Round";
@@ -87,8 +87,8 @@ const GamePage = () => {
       </table>
 
       <Round />
-      <button onClick={() => console.log(boardItems)}>TEST</button>
-      <button onClick={() => console.log(players)}>See Players</button>
+      {/* <button onClick={() => console.log(boardItems)}>TEST</button>
+      <button onClick={() => console.log(players)}>See Players</button> */}
     </div>
   );
 };

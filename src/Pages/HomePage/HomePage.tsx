@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import Iplayers from "../../Components/Types";
+import Iplayers from "../../Components/Interfaces/players";
 import { Link } from "react-router-dom";
 import { ContextInfo } from "../../Contexts/ContextInfo";
 

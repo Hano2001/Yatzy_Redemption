@@ -3,7 +3,7 @@ import IboardItem from "./Interfaces/boardItems";
 import Idice from "./Interfaces/dice";
 import { ContextInfo } from "../Contexts/ContextInfo";
 import { useContext, useState } from "react";
-import Iplayers from "./Types";
+import Iplayers from "./Interfaces/players";
 
 export default function Round() {
   let { boardItems, setBoardItems, players, turnCount, setTurnCount } =
@@ -11,20 +11,10 @@ export default function Round() {
   let roundCord = boardItems[turnCount];
   let [dice, setDice] = useState<Idice[]>([]);
   let [tossCount, setTossCount] = useState(0);
-  function ValueUpdate(props: { roundVal: IboardItem }) {
+
+  function DiceFuntion() {
     function DiceToss() {
-      setDice(Dice(roundCord.dieSide, dice));
-      let newArr = [...boardItems];
-      let itemIndex = boardItems.findIndex(
-        (obj: { tableCord: string }) =>
-          obj.tableCord === props.roundVal.tableCord
-      );
-      newArr[itemIndex].value = 5;
-      setBoardItems(newArr);
-      let playerIndex = players.findIndex(
-        (obj: Iplayers) => obj.id == props.roundVal.playerId
-      );
-      players[playerIndex].score += 5;
+      setDice(Dice(dice));
       setTossCount(tossCount + 1);
     }
 
@@ -33,17 +23,10 @@ export default function Round() {
         <button disabled={tossCount === 3} onClick={DiceToss}>
           Toss Dice
         </button>
-        <button onClick={() => console.log(roundCord.dieSide)}>
-          See Round
-        </button>
       </>
     );
   }
   function DiceDisplay() {
-    // function submitHandler(e: any) {
-    //   e.preventDefault();
-    //   console.log(e.target.checked);
-    // }
     if (dice.length === 0) {
       return (
         <>
@@ -53,16 +36,20 @@ export default function Round() {
     } else {
       return (
         <>
-          {/* <form onSubmit={submitHandler}> */}
+        <p>Tosses left: {3-tossCount}</p>
+        <p>Round: {roundCord.dieSide}</p>
           {dice.map((die) => {
             let checked = die.locked;
             return (
               <>
-                <p key={die.id}>{die.value}</p>
+              <div>
+                <img src={require(`../DiceImages/${die.value}.png`)} alt={die.value.toString()} />
+              </div>
+                
                 <input
                   onChange={() => {
                     die.locked = !die.locked;
-                    console.log(checked)
+                    console.log(checked);
                   }}
                   id="dieLock"
                   type="checkbox"
@@ -72,25 +59,34 @@ export default function Round() {
               </>
             );
           })}
-          <button type="submit">Lock Dice</button>
-          {/* </form> */}
         </>
       );
     }
   }
+
+  function NextRound() {
+    let roundScore = dice
+      .filter((x) => x.value === roundCord.dieSide)
+      .reduce((acc, obj) => acc + obj.value, 0);
+
+    let newArr = [...boardItems];
+    let itemIndex = boardItems.findIndex(
+      (obj: { tableCord: string }) => obj.tableCord === roundCord.tableCord
+    );
+    newArr[itemIndex].value = roundScore;
+    setBoardItems(newArr);
+    let playerIndex = players.findIndex(
+      (obj: Iplayers) => obj.id == roundCord.playerId
+    );
+    players[playerIndex].score += roundScore;
+    setTurnCount(turnCount + 1);
+    setTossCount(0);
+    setDice([]);
+  }
   return (
     <div>
-      <button
-        onClick={() => {
-          setTurnCount(turnCount + 1);
-          setTossCount(0);
-          setDice([])
-        }}
-      >
-        NEXT
-      </button>
-      <button onClick={() => console.log(roundCord)}>ROUNDCORD</button>
-      <ValueUpdate roundVal={roundCord} />
+      <button onClick={NextRound}>NEXT</button>
+      <DiceFuntion />
       <DiceDisplay />
     </div>
   );

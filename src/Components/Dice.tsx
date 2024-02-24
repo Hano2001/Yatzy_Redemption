@@ -1,7 +1,7 @@
 import React from "react";
 import Idice from "../Components/Interfaces/dice";
 
-export default function Dice(dieSide: number, dice: Idice[]) {
+export default function Dice(dice: Idice[]) {
   if (dice.length === 0) {
     for (let i = 1; i <= 5; i++) {
       let die = {

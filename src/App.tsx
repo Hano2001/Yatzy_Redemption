@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import "./App.css";
-import Iplayers from "./Components/Types";
-import IboardItem from "./Components/Types";
-import Board from "./Components/Board";
+import Iplayers from "./Components/Interfaces/players";
+import IboardItem from "./Components/Interfaces/boardItems";
 import { Outlet } from "react-router";
 import { ContextInfo } from "./Contexts/ContextInfo";
 
