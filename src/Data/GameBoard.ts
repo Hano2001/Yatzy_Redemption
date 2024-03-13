@@ -8,13 +8,13 @@ export const roundOne = [
 ];
 
 export const RoundTwo = [
-  {name: "One Pair", function:"function"},
-  {name: "Two Pairs", function:"function"},
-  {name: "Three of a kind", function:"function"},
-  {name: "Four of a kind", function:"function"},
-  {name: "Full house", function:"function"},
-  {name: "Small straight", function:"function"},
-  {name: "Large Straight", function:"function"},
-  {name: "Chance", function:"function"},
-  {name: "Yahtzee", function:"function"},
+  {name: "One Pair", function:"function",number:7},
+  {name: "Two Pairs", function:"function",number:8},
+  {name: "Three of a kind", function:"function",number:9},
+  {name: "Four of a kind", function:"function",number:10},
+  {name: "Full house", function:"function",number:11},
+  {name: "Small straight", function:"function",number:12},
+  {name: "Large Straight", function:"function",number:13},
+  {name: "Chance", function:"function",number:14},
+  {name: "Yahtzee", function:"function",number:15},
 ]
