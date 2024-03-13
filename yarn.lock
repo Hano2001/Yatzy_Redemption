@@ -2357,7 +2357,7 @@
   "resolved" "https://registry.npmjs.org/@webassemblyjs/ast/-/ast-1.11.6.tgz"
   "version" "1.11.6"
   dependencies:
-    "@webassemblyjs/helper-numbers" "1.11.6"
+    "@webassemblyjs/helper-rounds" "1.11.6"
     "@webassemblyjs/helper-wasm-bytecode" "1.11.6"
 
 "@webassemblyjs/floating-point-hex-parser@1.11.6":
@@ -2375,9 +2375,9 @@
   "resolved" "https://registry.npmjs.org/@webassemblyjs/helper-buffer/-/helper-buffer-1.11.6.tgz"
   "version" "1.11.6"
 
-"@webassemblyjs/helper-numbers@1.11.6":
+"@webassemblyjs/helper-rounds@1.11.6":
   "integrity" "sha512-vUIhZ8LZoIWHBohiEObxVm6hwP034jwmc9kuq5GdHZH0wiLVLIPcMCdpJzG4C11cHoQ25TFIQj9kaVADVX7N3g=="
-  "resolved" "https://registry.npmjs.org/@webassemblyjs/helper-numbers/-/helper-numbers-1.11.6.tgz"
+  "resolved" "https://registry.npmjs.org/@webassemblyjs/helper-rounds/-/helper-rounds-1.11.6.tgz"
   "version" "1.11.6"
   dependencies:
     "@webassemblyjs/floating-point-hex-parser" "1.11.6"

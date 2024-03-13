@@ -10,18 +10,18 @@ export default function Round() {
     useContext(ContextInfo);
   let roundCord = boardItems[turnCount];
   let [dice, setDice] = useState<Idice[]>([]);
-  let [tossCount, setTossCount] = useState(0);
+  let [rollCount, setRollCount] = useState(0);
 
   function DiceFuntion() {
-    function DiceToss() {
+    function DiceRoll() {
       setDice(Dice(dice));
-      setTossCount(tossCount + 1);
+      setRollCount(rollCount + 1);
     }
 
     return (
       <>
-        <button disabled={tossCount === 3} onClick={DiceToss}>
-          Toss Dice
+        <button disabled={rollCount === 3} onClick={DiceRoll}>
+          Roll Dice
         </button>
       </>
     );
@@ -30,23 +30,28 @@ export default function Round() {
     if (dice.length === 0) {
       return (
         <>
-          <p>Toss the Dice!</p>
+          <p>Roll the Dice!</p>
         </>
       );
     } else {
       return (
         <>
-        <p>Tosses left: {3-tossCount}</p>
-        <p>Round: {roundCord.dieSide}</p>
-          {dice.map((die) => {
+          <p>Rolls left: {3 - rollCount}</p>
+          <p>Round: {roundCord.dieSide}</p>
+          {dice.map((die, index) => {
             let checked = die.locked;
             return (
               <>
-              <div>
-                <img src={require(`../DiceImages/${die.value}.png`)} alt={die.value.toString()} />
-              </div>
-                
+                <div key={index + "div"}>
+                  <img
+                    key={index+"img"}
+                    src={require(`../DiceImages/${die.value}.png`)}
+                    alt={die.value.toString()}
+                  />
+                </div>
+
                 <input
+                  key={index+"input"}
                   onChange={() => {
                     die.locked = !die.locked;
                     console.log(checked);
@@ -55,7 +60,7 @@ export default function Round() {
                   type="checkbox"
                   defaultChecked={checked}
                 />
-                <label htmlFor="dieLock">Lock Die</label>
+                <label key={index+"label"} htmlFor="dieLock">Lock Die</label>
               </>
             );
           })}
@@ -80,7 +85,7 @@ export default function Round() {
     );
     players[playerIndex].score += roundScore;
     setTurnCount(turnCount + 1);
-    setTossCount(0);
+    setRollCount(0);
     setDice([]);
   }
   return (

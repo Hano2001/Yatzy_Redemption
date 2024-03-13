@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import Iplayers from "../../Components/Interfaces/players";
 import { ContextInfo } from "../../Contexts/ContextInfo";
-import { numbers } from "../../Data/GameBoard";
+import { roundOne } from "../../Data/GameBoard";
 import Round from "../../Components/Round";
 
 const GamePage = () => {
@@ -72,19 +72,21 @@ const GamePage = () => {
       <table>
         <tbody>
           <tr>
-            <th>Round</th>
+            <th>Round 1</th>
             {players.map((player: Iplayers) => {
               return <th key={player.id}>{player.name}</th>;
             })}
           </tr>
 
-          {numbers.map((number) => {
-            return <TableRow name={number.name} num={number.number} />;
+          {roundOne.map((round) => {
+            return <TableRow key={round.number} name={round.name} num={round.number} />;
           })}
           <ResultRow name="Score" />
           <BonusRow name="Bonus" />
+
         </tbody>
       </table>
+      
 
       <Round />
       {/* <button onClick={() => console.log(boardItems)}>TEST</button>
