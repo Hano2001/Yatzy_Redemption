@@ -55,7 +55,6 @@ export default function Round() {
                   key={index + "input"}
                   onChange={() => {
                     die.locked = !die.locked;
-                    console.log(checked);
                   }}
                   id="dieLock"
                   type="checkbox"
@@ -87,7 +86,7 @@ export default function Round() {
       let playerIndex = players.findIndex(
         (obj: Iplayers) => obj.id == roundCord.playerId
       );
-      players[playerIndex].score += roundScore;
+      players[playerIndex].firstRoundScore += roundScore;
       setTurnCount(turnCount + 1);
       setRollCount(0);
       setDice([]);
@@ -104,7 +103,7 @@ export default function Round() {
       let playerIndex = players.findIndex(
         (obj: Iplayers) => obj.id == roundCord.playerId
       );
-      players[playerIndex].score += roundScore;
+      players[playerIndex].secondRoundScore += roundScore;
       setTurnCount(turnCount + 1);
       setRollCount(0);
       setDice([]);

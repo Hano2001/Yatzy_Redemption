@@ -15,7 +15,8 @@ const HomePage = () => {
     const newPlayer = {
       id: playerCounter,
       name: e.target.name.value,
-      score:0
+      firstRoundScore:0,
+      secondRoundScore: 0
     };
     setPlayers([...players, newPlayer]);
     e.target.name.value = "";

@@ -1,42 +1,63 @@
 import React from "react";
+import Idice from "./Interfaces/dice";
 
-export default function Functions(props: { arr: any; num: number }) {
-  function Pair(x: any) {
+export default function Functions(props: { arr: Idice[]; num: number }) {
+    
+  function DiceCounter(y: Idice[]) {
+    //let counts = {1:0,2:0,3:0,4:0,5:0,6:0};
+    let counts:Record<number,number> =  {}
+    y.map(die => {
+        counts[die.value] = counts[die.value] ? counts[die.value] +1 : 1;
+    })
+
+    return counts;
+    
+
+  }
+  function Pair(x: Idice[]) {
+    console.log(x)
+    console.log(DiceCounter(x))
     return props.num;
   }
 
-  function TwoPair(x: any) {
+  function TwoPair(x: Idice[]) {
     return props.num;
   }
 
-  function Three(x: any) {
+  function Three(x: Idice[]) {
     return props.num;
   }
-  function Four(x: any) {
-    return props.num;
-  }
-
-  function House(x: any) {
+  function Four(x: Idice[]) {
     return props.num;
   }
 
-  function Small(x: any) {
+  function House(x: Idice[]) {
+    console.log(x)
     return props.num;
   }
 
-  function Large(x: number) {
+  function Small(x: Idice[]) {
+    let small = "12345";
+    DiceCounter(props.arr)
+    //return x.join("") === small ? 15 : 0;
+    return props.num
+  }
+
+  function Large(x: Idice[]) {
+    let large = "23456";
+    //return x.join("") === large ? 20 : 0;
+    return props.num
+  }
+
+  function Chance(x: Idice[]) {
+    return x.reduce((acc,obj) => acc + obj.value,0);
+  }
+
+  function Yahtzee(x: Idice[]) {
     return props.num;
   }
 
-  function Chance(x: any) {
-    return props.num;
-  }
-
-  function Yahtzee(x: any) {
-    return props.num;
-  }
-
-  let returnVal = 0
+  let returnVal = 0;
   switch (props.num) {
     case 7:
       returnVal = Pair(props.arr);

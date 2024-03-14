@@ -65,14 +65,22 @@ const GamePage = () => {
       </tr>
     );
   }
-  function ResultRow(props: { name: string }) {
+  function ResultRow(props: { round: string }) {
     return (
       <>
         <tr>
-          <th>{props.name}</th>
+          <th>Score</th>
 
           {players.map((player: Iplayers) => {
-            return <td key={player.id}>{player.score}</td>;
+            return props.round === "second" ? (
+              <td key={player.id}>
+                {player.firstRoundScore + player.secondRoundScore}
+              </td>
+            ) : (
+              <td key={player.id}>
+                {player.firstRoundScore}
+              </td>
+            );
           })}
         </tr>
       </>
@@ -85,7 +93,7 @@ const GamePage = () => {
           <th>{props.name}</th>
 
           {players.map((player: Iplayers) => {
-            let score = player.score >= 63 ? 50 : 0;
+            let score = player.firstRoundScore >= 63 ? 50 : 0;
             return <td key={player.id}>{score}</td>;
           })}
         </tr>
@@ -115,7 +123,7 @@ const GamePage = () => {
               />
             );
           })}
-          
+          <ResultRow round="first" />
           <BonusRow name="Bonus" />
           <tr>Round 2</tr>
           {RoundTwo.map((round) => {
@@ -127,7 +135,7 @@ const GamePage = () => {
               />
             );
           })}
-          <ResultRow name="Score" />
+          <ResultRow round="second" />
         </tbody>
       </table>
 
