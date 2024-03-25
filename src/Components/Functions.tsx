@@ -3,32 +3,37 @@ import Idice from "./Interfaces/dice";
 
 export default function Functions(props: { arr: Idice[]; num: number }) {
     
-  function DiceCounter(y: Idice[]) {
+  function DiceCounter(y: Idice[], round:number) {
     //let counts = {1:0,2:0,3:0,4:0,5:0,6:0};
     let counts:Record<number,number> =  {}
     y.map(die => {
         counts[die.value] = counts[die.value] ? counts[die.value] +1 : 1;
+    });
+    let returnArr:any = [];
+    Object.keys(counts).filter(count => {
+        let countKey = Number(count)
+        if(counts[Number(countKey)] >= round) {
+            returnArr.push(countKey*round);
+        }
     })
-
-    return counts;
+    
+    return Math.max(...returnArr)
     
 
   }
   function Pair(x: Idice[]) {
-    console.log(x)
-    console.log(DiceCounter(x))
-    return props.num;
+   return (DiceCounter(x,2))
   }
 
   function TwoPair(x: Idice[]) {
-    return props.num;
+    return props.num
   }
 
   function Three(x: Idice[]) {
-    return props.num;
+    return (DiceCounter(x,3))
   }
   function Four(x: Idice[]) {
-    return props.num;
+    return (DiceCounter(x,4))
   }
 
   function House(x: Idice[]) {
@@ -38,7 +43,7 @@ export default function Functions(props: { arr: Idice[]; num: number }) {
 
   function Small(x: Idice[]) {
     let small = "12345";
-    DiceCounter(props.arr)
+    //DiceCounter(props.arr)
     //return x.join("") === small ? 15 : 0;
     return props.num
   }
