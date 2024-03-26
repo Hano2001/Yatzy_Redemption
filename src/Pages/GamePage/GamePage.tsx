@@ -5,32 +5,39 @@ import { RoundTwo, roundOne } from "../../Data/GameBoard";
 import Round from "../../Components/Round";
 import IboardItem from "../../Components/Interfaces/boardItems";
 const GamePage = () => {
-  const { players, boardItems, setBoardItems } = useContext(ContextInfo);
+  const [activeCellArr, setActiveCellArr] = useState<Array<string>>([]);
+  const { players, boardItems, setBoardItems, turnCount } =
+    useContext(ContextInfo);
   useEffect(() => {
     for (let i = 1; i <= 15; i++) {
-      players.map((player: Iplayers) => {
+      players.forEach((player:Iplayers) => {
+        let tableCord = `${player.id}:${i}`;
         let newBoardItem =
           i < 7
             ? {
                 playerId: player.id,
-                tableCord: `${player.id}:${i}`,
+                tableCord: tableCord,
                 value: 0,
                 dieSide: i,
               }
             : {
                 playerId: player.id,
-                tableCord: `${player.id}:${i}`,
+                tableCord: tableCord,
                 value: 0,
               };
 
-        let newB;
+        setActiveCellArr((prevCellArr: Array<string>) => [
+          ...prevCellArr,
+          tableCord,
+        ]);
+
         setBoardItems((prevBoard: Array<IboardItem>) => [
           ...prevBoard,
           newBoardItem,
         ]);
       });
     }
-  }, []);
+  },[players]);
 
   function FirstRound(props: { name: string; num: number }) {
     return (
@@ -43,7 +50,16 @@ const GamePage = () => {
           );
           let cellValue = obj?.value.toString();
 
-          return <td key={tableCord}>{cellValue}</td>;
+          let activeCell: React.CSSProperties =
+            tableCord === activeCellArr[turnCount]
+              ? { background: "gray" }
+              : {};
+
+          return (
+            <td style={activeCell} key={tableCord}>
+              {cellValue}
+            </td>
+          );
         })}
       </tr>
     );
@@ -59,8 +75,15 @@ const GamePage = () => {
             (item: { tableCord: string }) => item.tableCord === tableCord
           );
           let cellValue = obj?.value.toString();
-
-          return <td key={tableCord}>{cellValue}</td>;
+          let activeCell: React.CSSProperties =
+            tableCord === activeCellArr[turnCount]
+              ? { background: "gray" }
+              : {};
+          return (
+            <td style={activeCell} key={tableCord}>
+              {cellValue}
+            </td>
+          );
         })}
       </tr>
     );
@@ -77,9 +100,7 @@ const GamePage = () => {
                 {player.firstRoundScore + player.secondRoundScore}
               </td>
             ) : (
-              <td key={player.id}>
-                {player.firstRoundScore}
-              </td>
+              <td key={player.id}>{player.firstRoundScore}</td>
             );
           })}
         </tr>
@@ -93,8 +114,8 @@ const GamePage = () => {
           <th>{props.name}</th>
 
           {players.map((player: Iplayers) => {
-            let score = player.firstRoundScore >= 63 ? 50 : 0;
-            return <td key={player.id}>{score}</td>;
+            let bonus = player.bonus ? "YES" : "-"
+            return <td key={player.id}>{bonus}</td>;
           })}
         </tr>
       </>
@@ -105,15 +126,17 @@ const GamePage = () => {
     <div>
       <h1>gamepage</h1>
       <table>
-        <tbody>
-          <tr>Round 1</tr>
+        <thead>
           <tr>
-            <th></th>
+            <th>Round 1</th>
+
             {players.map((player: Iplayers) => {
               return <th key={player.id}>{player.name}</th>;
             })}
           </tr>
+        </thead>
 
+        <tbody>
           {roundOne.map((round) => {
             return (
               <FirstRound
@@ -125,10 +148,24 @@ const GamePage = () => {
           })}
           <ResultRow round="first" />
           <BonusRow name="Bonus" />
-          <tr>Round 2</tr>
+        </tbody>
+        {/* <tr>
+            <td>Round 2</td>
+          </tr> */}
+        <thead>
+          <tr>
+            <th>Round 2</th>
+
+            {players.map((player: Iplayers) => {
+              return <th key={player.id}>{player.name}</th>;
+            })}
+          </tr>
+        </thead>
+        <tbody>
           {RoundTwo.map((round) => {
             return (
               <SecondRound
+                key={round.number}
                 name={round.name}
                 function={round.function}
                 num={round.number}
@@ -138,11 +175,7 @@ const GamePage = () => {
           <ResultRow round="second" />
         </tbody>
       </table>
-
       <Round />
-      <button onClick={() => console.log(boardItems)}>TEST</button>
-      {/* <button onClick={() => console.log(boardItems)}>TEST</button>
-      <button onClick={() => console.log(players)}>See Players</button> */}
     </div>
   );
 };
