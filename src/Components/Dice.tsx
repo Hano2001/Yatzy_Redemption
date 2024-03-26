@@ -1,4 +1,3 @@
-import React from "react";
 import Idice from "../Components/Interfaces/dice";
 
 export default function Dice(dice: Idice[]) {

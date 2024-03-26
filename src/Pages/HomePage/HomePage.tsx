@@ -3,25 +3,23 @@ import Iplayers from "../../Components/Interfaces/players";
 import { Link } from "react-router-dom";
 import { ContextInfo } from "../../Contexts/ContextInfo";
 
-
-
 const HomePage = () => {
   const [inputvalue, setInputValue] = useState(true);
   const { players, setPlayers } = useContext(ContextInfo);
-  const [playerCounter, setPlayerCounter] = useState(0)
+  const [playerCounter, setPlayerCounter] = useState(0);
 
   function HandleSubmit(e: any) {
     e.preventDefault();
     const newPlayer = {
       id: playerCounter,
       name: e.target.name.value,
-      firstRoundScore:0,
+      firstRoundScore: 0,
       bonus: false,
-      secondRoundScore: 0
+      secondRoundScore: 0,
     };
     setPlayers([...players, newPlayer]);
     e.target.name.value = "";
-    setPlayerCounter(playerCounter+1)
+    setPlayerCounter(playerCounter + 1);
     setInputValue(true);
   }
   function HandleOnChange(e: any) {
@@ -31,6 +29,10 @@ const HomePage = () => {
     let newArr = [...players];
     newArr.splice(index, 1);
     setPlayers(newArr);
+  }
+
+  function GameLink() {
+    return players.length > 0 ? <Link to="/gamepage">Game</Link> : <></>;
   }
   return (
     <div className="App">
@@ -54,7 +56,7 @@ const HomePage = () => {
           </div>
         );
       })}
-      <Link to="/gamepage">Game</Link>
+      <GameLink/>
     </div>
   );
 };

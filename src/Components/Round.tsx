@@ -11,13 +11,13 @@ export default function Round() {
   let roundCord = boardItems[turnCount];
   let [dice, setDice] = useState<Idice[]>([]);
   let [rollCount, setRollCount] = useState(0);
-  let [nextButtonDisable, setNextButtonDisable] = useState(true)
+  let [nextButtonDisable, setNextButtonDisable] = useState(true);
 
   function DiceFuntion() {
     function DiceRoll() {
       setDice(Dice(dice));
       setRollCount(rollCount + 1);
-      setNextButtonDisable(false)
+      setNextButtonDisable(false);
     }
 
     return (
@@ -72,53 +72,41 @@ export default function Round() {
   }
 
   function NextRound() {
-    if (roundCord.dieSide) {
-      let roundScore = dice
-        .filter((x) => x.value === roundCord.dieSide)
-        .reduce((acc, obj) => acc + obj.value, 0);
+    let newArr = [...boardItems];
+    let itemIndex = boardItems.findIndex(
+      (obj: { tableCord: string }) => obj.tableCord === roundCord.tableCord
+    );
+    let functionIndex = Number(roundCord.tableCord.split(":").reverse()[0]);
 
-      let newArr = [...boardItems];
-      let itemIndex = boardItems.findIndex(
-        (obj: { tableCord: string }) => obj.tableCord === roundCord.tableCord
-      );
-      newArr[itemIndex].value = roundScore;
-      setBoardItems(newArr);
-      let playerIndex = players.findIndex(
-        (obj: Iplayers) => obj.id === roundCord.playerId
-      );
-      players[playerIndex].firstRoundScore += roundScore;
-      if(players[playerIndex] >= 63) {
-        players[playerIndex].bonus = true;
-      }
-      setTurnCount(turnCount + 1);
-      setRollCount(0);
-      setDice([]);
-      setNextButtonDisable(true)
-    } 
-    
-    else {
-      let newArr = [...boardItems];
-      let itemIndex = boardItems.findIndex(
-        (obj: { tableCord: string }) => obj.tableCord === roundCord.tableCord
-      );
-      
-      let functionIndex = Number(roundCord.tableCord.split(":").reverse()[0]);
-      let roundScore = Number(Functions({arr:dice, num:functionIndex}))
-      newArr[itemIndex].value = roundScore;
-      setBoardItems(newArr);
-      let playerIndex = players.findIndex(
-        (obj: Iplayers) => obj.id === roundCord.playerId
-      );
-      players[playerIndex].secondRoundScore += roundScore;
-      setTurnCount(turnCount + 1);
-      setRollCount(0);
-      setDice([]);
-      setNextButtonDisable(true)
+    let roundScore = roundCord.dieSide
+      ? dice
+          .filter((x) => x.value === roundCord.dieSide)
+          .reduce((acc, obj) => acc + obj.value, 0)
+      : Number(Functions({ arr: dice, num: functionIndex }));
+    newArr[itemIndex].value = roundScore;
+
+    setBoardItems(newArr);
+    let playerIndex = players.findIndex(
+      (obj: Iplayers) => obj.id === roundCord.playerId
+    );
+    roundCord.dieSide
+      ? (players[playerIndex].firstRoundScore += roundScore)
+      : (players[playerIndex].secondRoundScore += roundScore);
+
+    if (players[playerIndex] >= 63) {
+      players[playerIndex].bonus = true;
     }
+
+    setTurnCount(turnCount + 1);
+    setRollCount(0);
+    setDice([]);
+    setNextButtonDisable(true);
   }
   return (
     <div>
-      <button disabled={nextButtonDisable} onClick={NextRound}>NEXT</button>
+      <button disabled={nextButtonDisable} onClick={NextRound}>
+        NEXT
+      </button>
       <DiceFuntion />
       <DiceDisplay />
     </div>

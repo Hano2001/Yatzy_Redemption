@@ -9,13 +9,16 @@ function App() {
   const [players, setPlayers] = useState<Array<Iplayers>>([]);
   const [boardItems, setBoardItems] = useState<Array<IboardItem>>([]);
   const [turnCount, setTurnCount] = useState(0);
+  const [activeCellArr, setActiveCellArr] = useState<Array<string>>([]);
   const contextValues = {
     players,
     setPlayers,
     boardItems,
     setBoardItems,
     turnCount,
-    setTurnCount
+    setTurnCount,
+    activeCellArr,
+    setActiveCellArr,
   };
   return (
     <ContextInfo.Provider value={contextValues}>
